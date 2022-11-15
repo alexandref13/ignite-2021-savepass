@@ -11,19 +11,20 @@ import {
   ToggleShowPassButton,
   Icon
 } from './styles';
+import { FormData } from '../../../screens/RegisterLoginData';
 
 interface Props extends TextInputProps {
-  control: Control;
-  name: string;
+  control: Control<FormData, any>;
+  name: 'service_name' | 'email'| 'password';
   title: string;
-  error: string;
+  error?: string | undefined;
 }
 
 export function Input({
   name,
   control,
   title,
-  error,
+  error =undefined,
   secureTextEntry,
   ...rest
 }: Props) {

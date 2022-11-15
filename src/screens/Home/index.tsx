@@ -30,15 +30,20 @@ export function Home() {
 
   async function loadData() {
     const dataKey = '@savepass:logins';
-    // Get asyncStorage data, use setSearchListData and setData
+    const storedData = await AsyncStorage.getItem(dataKey)
+
+    const object = storedData ? JSON.parse(storedData) : [];
+    
+    setSearchListData(object)
+    setData(object)
   }
 
   function handleFilterLoginData() {
-    // Filter results inside data, save with setSearchListData
-  }
-
-  function handleChangeInputText(text: string) {
-    // Update searchText value
+    if(searchText){
+      setSearchListData(prevState => prevState.filter((data) => data.service_name.includes(searchText)))
+    }else{
+      setSearchListData(data)
+    }
   }
 
   useFocusEffect(useCallback(() => {
@@ -56,11 +61,10 @@ export function Home() {
       <Container>
         <SearchBar
           placeholder="Qual senha você procura?"
-          onChangeText={handleChangeInputText}
+          onChangeText={setSearchText}
           value={searchText}
           returnKeyType="search"
           onSubmitEditing={handleFilterLoginData}
-
           onSearchButtonPress={handleFilterLoginData}
         />
 
